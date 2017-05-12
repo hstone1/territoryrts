@@ -6,8 +6,33 @@ const app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT);
 document.body.appendChild(app.view);
 
 const map = new Map();
-app.stage.addChild(map.container);
 app.stage.scale.x = app.stage.scale.y = 100;
+
+
+app.stage.interactive = true;
+const backgroundLayer = new PIXI.Container(-1, true);
+
+const bgGraphics = new PIXI.Graphics();
+backgroundLayer.addChild(bgGraphics);
+app.stage.addChild(backgroundLayer);
+bgGraphics.beginFill(0xFF5533);
+
+bgGraphics.beginFill(0x338888);
+bgGraphics.moveTo(0, 0);
+bgGraphics.lineTo(0, 100);
+bgGraphics.lineTo(100, 100);
+bgGraphics.lineTo(100, 0);
+bgGraphics.lineTo(0, 0);
+bgGraphics.endFill();
+
+app.stage.addChild(map.container);
+app.stage.on('pointerdown', (event) => {
+    const pos = event.data.getLocalPosition(app.stage);
+    socket.send('placebuilding', JSON.stringify({
+        x: Math.floor(pos.x),
+        y: Math.floor(pos.y)
+    }));
+});
 
 // Dragging logic
 let isDragging = false;
@@ -56,12 +81,6 @@ socket.addListener('buildings', (message) => {
         map.addBuilding(b.x, b.y, b.width, b.height);
     });
 });
-
-socket.send('placebuilding', JSON.stringify({
-    x: 4,
-    y: 5,
-    buildingId: 1
-}));
 
 
 
