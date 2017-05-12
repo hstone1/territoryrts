@@ -1,0 +1,1 @@
+const PIXEL_PER_TILE = 100;
