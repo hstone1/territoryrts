@@ -16,11 +16,5 @@ class Entity {
         this.graphics.endFill();
 
         this.container.addChild(this.graphics);
-
-        console.log(this.container);
-        setTimeout(() => {
-            this.container.x += 500;
-            console.log("updated!");
-        }, 1000);
     }
 }
