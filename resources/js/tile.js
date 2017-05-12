@@ -3,9 +3,9 @@ class Tile {
         this.graphics = new PIXI.Graphics();
         this.graphics.beginFill(0xFF5533);
         this.graphics.moveTo(0, 0);
-        this.graphics.lineTo(0, 100);
-        this.graphics.lineTo(100, 100);
-        this.graphics.lineTo(100, 0);
+        this.graphics.lineTo(0, 1);
+        this.graphics.lineTo(1, 1);
+        this.graphics.lineTo(1, 0);
         this.graphics.lineTo(0, 0);
         this.graphics.endFill();
 

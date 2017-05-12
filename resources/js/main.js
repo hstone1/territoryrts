@@ -7,6 +7,7 @@ document.body.appendChild(app.view);
 
 const map = new Map();
 app.stage.addChild(map.container);
+app.stage.scale.x = app.stage.scale.y = 100;
 
 // Dragging logic
 let isDragging = false;
@@ -50,8 +51,17 @@ $canvas[0].addEventListener('mousewheel', function(event){
 
 const socket = new Socket();
 socket.addListener('buildings', (message) => {
-    alert(message);
+    let buildings = JSON.parse(message);
+    buildings.forEach(b => {
+        map.addBuilding(b.x, b.y, b.width, b.height);
+    });
 });
+
+socket.send('placebuilding', JSON.stringify({
+    x: 4,
+    y: 5,
+    buildingId: 1
+}));
 
 
 
