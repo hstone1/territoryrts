@@ -1,5 +1,6 @@
 package com.brendanhenry.civrts.game.map;
 
+import com.brendanhenry.civrts.G;
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Sender;
 
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 public class Map {
   private ArrayList<Building> buildings;
 
-  public Map(){
+  public Map() {
     buildings = new ArrayList<>();
-
+    buildings.add(new Building(3, 3, 1, 1));
+    buildings.add(new Building(1, 4, 2, 1));
+    buildings.add(new Building(2, 0, 0, 2));
   }
 
   public Building getBuilding(int x, int y) {
@@ -36,6 +39,7 @@ public class Map {
   }
 
   public void sendFullUpdate(Sender s) {
-    s.send(MessageType.BUILDINGS, "hi");
+    s.send(MessageType.BUILDINGS,
+        G.SON.toJson(buildings));
   }
 }
