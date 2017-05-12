@@ -6,7 +6,7 @@ const app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT);
 document.body.appendChild(app.view);
 
 const map = new Map();
-app.stage.scale.x = app.stage.scale.y = 100;
+app.stage.scale.x = app.stage.scale.y = 10;
 
 
 app.stage.interactive = true;
@@ -78,7 +78,7 @@ const socket = new Socket();
 socket.addListener('buildings', (message) => {
     let buildings = JSON.parse(message);
     buildings.forEach(b => {
-        map.addBuilding(b.x, b.y, b.width, b.height);
+        map.addBuilding(b.x, b.y, b.width, b.height, "id");
     });
 });
 
