@@ -1,5 +1,9 @@
 civrts.iml
+.idea/*
 .idea/
 node_modules/
 bower_components/
 target/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
