@@ -1,6 +1,5 @@
 package com.brendanhenry.civrts.io;
 
-import edu.brown.cs.dominion.io.Websocket;
 import org.eclipse.jetty.websocket.api.Session;
 
 /**

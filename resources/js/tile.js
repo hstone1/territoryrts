@@ -1,5 +1,5 @@
 class Tile {
-    constructor(c, y) {
+    constructor(x, y) {
         this.graphics = new PIXI.Graphics();
         this.graphics.beginFill(0xFF5533);
         this.graphics.moveTo(0, 0);

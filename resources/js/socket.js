@@ -1,35 +1,43 @@
-const ws = new WebSocket("ws://localhost:4567/socket");
+class Socket {
+    constructor() {
+        this.sock = new WebSocket("ws://localhost:4567/socket");
+        this.listeners = [];
 
-let initialized = false;
-let global = {};
+        this.sock.onmessage = (event) => {
+            const str = event.data;
+            const semi = str.indexOf(':');
+            const type = str.substring(0, semi);
+            console.log("\n\nRecieved message of type " + type);
 
-const merge = function(global, update){
-    Object.keys(update).forEach(function(k){
-        if (update[k] === "end") {
-            while(global.length > k){
-                global.pop();
+            if (this.listeners[type]) {
+                if (str.length > semi + 1) {
+                    const message = str.substring(semi + 1);
+                    try {
+                        console.log(JSON.parse(message));
+                    } catch (e) {
+                        console.log(message);
+                    }
+                    this.listeners[type].forEach((func) => func(message));
+                } else {
+                    this.listeners[type].forEach((func) => func());
+                }
             }
-        } else if (typeof (global[k]) === 'undefined') {
-            global[k] = update[k];
-        } else if (Object.keys(update[k]).length === 0) {
-            global[k] = update[k];
-        } else if (typeof(update[k]) === 'string') {
-            global[k] = update[k];
-        } else {
-            merge(global[k], update[k]);
         }
-    })
-};
-
-ws.onopen = function (event) {};
-
-ws.onmessage = function (data) {
-    //console.log(data.data)
-    if (data.data.startsWith("init")) {
-        global = JSON.parse(data.data.substring(4));
-        initialized = true;
-    } else if (initialized === true ){
-        merge(global, JSON.parse(data.data));
-        console.log(JSON.stringify(global));
     }
-};
+
+    addListener(name, func) {
+        if (!this.listeners[name]) {
+            this.listeners[name] = [func];
+        } else {
+            this.listeners[name].push(func);
+        }
+    }
+
+    send(type, message) {
+        console.log("\n\n\n\nSENDING " + type + ". Message: " + message
+            + ". Endpoint: " + this.endpoint);
+        this.sock.send(type + ":" + message);
+    }
+
+}
+

@@ -8,7 +8,6 @@ document.body.appendChild(app.view);
 const map = new Map();
 app.stage.addChild(map.container);
 
-
 // Dragging logic
 let isDragging = false;
 let prev = [];
@@ -35,7 +34,24 @@ $('html').mouseup(() => {
     isDragging = false;
 });
 
+$canvas[0].addEventListener('mousewheel', function(event){
+    event.preventDefault();
 
+    if (event.deltaY > 0) {
+        app.stage.scale.x *= 1.05;
+        app.stage.scale.y *= 1.05;
+    } else if (event.deltaY < 0) {
+        app.stage.scale.x *= 0.95;
+        app.stage.scale.y *= 0.95;
+    }
+    return false;
+}, false);
+
+
+const socket = new Socket();
+socket.addListener('buildings', (message) => {
+    alert(message);
+});
 
 
 

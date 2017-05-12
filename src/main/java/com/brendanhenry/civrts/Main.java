@@ -1,6 +1,7 @@
 package com.brendanhenry.civrts;
 
-import com.brendanhenry.civrts.unifiedMemory.Websocket;
+import com.brendanhenry.civrts.game.Game;
+import com.brendanhenry.civrts.io.Websocket;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import static spark.Spark.*;
@@ -10,7 +11,7 @@ import static spark.Spark.*;
  *
  */
 public class Main {
-    Websocket sync = new Websocket(25);
+    GameSocket sock = new GameSocket(new Game());
 
     public static void main( String[] args ) {
         Main m = new Main();
@@ -24,7 +25,7 @@ public class Main {
     private void run() {
         port(4567);
         externalStaticFileLocation("resources");
-        webSocket("/socket", sync);
+        webSocket("/socket", new Websocket(sock));
         get("/home", (req, res) -> "hello world");
     }
 }
