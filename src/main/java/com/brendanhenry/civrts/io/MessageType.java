@@ -1,0 +1,19 @@
+package com.brendanhenry.civrts.io;
+
+/**
+ * Created by henry on 4/2/2017.
+ */
+public enum MessageType {
+  BUILDINGS ("buildings");
+
+
+  private final String name;
+  MessageType(String name){
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+}
