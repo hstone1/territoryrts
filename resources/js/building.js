@@ -1,6 +1,6 @@
-class Building {
-
-    constructor(xCoord, yCoord, width, height) {
+class Building extends Entity {
+    constructor(xCoord, yCoord, width, height, id) {
+        super(id);
         this.container = new PIXI.Container();
 
         this.graphics = new PIXI.Graphics();
