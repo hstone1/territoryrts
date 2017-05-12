@@ -3,8 +3,9 @@ package com.brendanhenry.civrts.game.map;
 import com.brendanhenry.civrts.G;
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Sender;
+import com.brendanhenry.civrts.io.Websocket;
+import com.google.gson.JsonObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -41,5 +42,17 @@ public class Map {
   public void sendFullUpdate(Sender s) {
     s.send(MessageType.BUILDINGS,
         G.SON.toJson(buildings));
+  }
+
+  public void registerGlobalCommands(Websocket ws) {
+    ws.putCommand(MessageType.PLACE_BUILDING,
+        (w, s, m) -> {
+          JsonObject loc = G.PARSE.parse(m).getAsJsonObject();
+          int x = loc.get("x").getAsInt();
+          int y = loc.get("y").getAsInt();
+          buildings.add(new Building(x, y, 2, 2));
+          w.send(s, MessageType.BUILDINGS,
+               G.SON.toJson(buildings));
+        });
   }
 }

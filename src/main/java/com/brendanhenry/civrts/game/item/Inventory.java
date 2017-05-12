@@ -12,4 +12,20 @@ public class Inventory {
       this.slots[i] = new ItemStack();
     }
   }
+
+  public boolean add(Item item) {
+    for (int i = 0; i < slots.length; i++){
+      if(slots[i].canContain(item)){
+        slots[i].addOne();
+        return true;
+      }
+    }
+    for (int i = 0; i < slots.length; i++){
+      if(slots[i].isEmpty()){
+        slots[i] = new ItemStack(item, 1);
+        return true;
+      }
+    }
+    return false;
+  }
 }

@@ -25,6 +25,6 @@ public class GameSocket implements SocketServer {
 
   @Override
   public void registerGlobalCommands(Websocket ws) {
-
+    g.registerGlobalCommands(ws);
   }
 }

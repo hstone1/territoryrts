@@ -29,4 +29,16 @@ public class ItemStack {
   public Item getItem() {
     return m;
   }
+
+  public boolean canContain(Item m){
+    return this.m != null && m.equals(this.m);
+  }
+
+  public void addOne() {
+    number++;
+  }
+
+  public boolean isEmpty(){
+    return m == null || number == 0;
+  }
 }
