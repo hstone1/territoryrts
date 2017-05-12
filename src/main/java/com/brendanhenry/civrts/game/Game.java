@@ -11,8 +11,8 @@ import com.brendanhenry.civrts.io.Websocket;
 public class Game {
   private Map map;
 
-  public Game(){
-    this.map = new Map();
+  public Game(Websocket ws){
+    this.map = new Map(ws);
   }
 
   public void sendFullUpdate(Sender s) {

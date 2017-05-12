@@ -16,7 +16,6 @@ public class GameSocket implements SocketServer {
     this.g = g;
   }
 
-
   @Override
   public void newSession(Websocket ws, Session s) {
     Sender send = (t, m) -> ws.send(s, t, m);

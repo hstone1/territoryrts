@@ -5,5 +5,5 @@ package com.brendanhenry.civrts.io;
  */
 @FunctionalInterface
 public interface Sender {
-  public void send(MessageType type, String message);
+  public void send(MessageType type, Jsonable message);
 }

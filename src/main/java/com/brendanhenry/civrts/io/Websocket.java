@@ -1,11 +1,12 @@
 package com.brendanhenry.civrts.io;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import sun.plugin2.message.Message;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,14 +24,19 @@ import java.util.Map;
  */
 @WebSocket
 public class Websocket {
+  private static Gson GSON = new Gson();
+
   private Map<String, MessageListener> commands;
   private List<Session> sessions;
   private SocketServer serve;
 
-  public Websocket(SocketServer serve) {
+  public Websocket() {
     sessions = new ArrayList<>();
-    this.serve = serve;
     commands = new HashMap<>();
+  }
+
+  public void setServer(SocketServer serve){
+    this.serve = serve;
     serve.registerGlobalCommands(this);
   }
 
@@ -42,12 +48,17 @@ public class Websocket {
    *           recieval of this command
    */
   public void putCommand(MessageType type, MessageListener ml) {
-    commands.put(type.toString(), ml);
+    commands.put(type.getName(), ml);
   }
 
-  public synchronized void send(Session s, MessageType type, String message) {
+  public void send(Session s, MessageType type, Jsonable message) {
+    send(s, type, message.toJson());
+  }
+
+  public synchronized void send(Session s, MessageType type, JsonElement
+      message) {
     try {
-      s.getRemote().sendString(type.toString() + ":" + message);
+      s.getRemote().sendString(GSON.toJson(type.make(message)));
     } catch (IOException e) {
       System.out.println("ERROR: sending message to session");
     }
@@ -59,11 +70,16 @@ public class Websocket {
    * @param message the object which contains the string data to be sent to
    *                the client.
    */
-  public synchronized void sendAll(MessageType type, String message) {
+  public void sendAll(MessageType type, JsonElement message) {
     for (Session s : sessions) {
       send(s, type, message);
     }
   }
+
+  public void sendAll(MessageType type, Jsonable message) {
+    sendAll(type, message.toJson());
+  }
+
 
   /**
    * Register the connection of a new user. Does not do anything, because the

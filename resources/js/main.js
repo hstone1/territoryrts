@@ -50,9 +50,12 @@ $canvas[0].addEventListener('mousewheel', function(event){
 
 
 const socket = new Socket();
-socket.addListener('buildings', (message) => {
-    let buildings = JSON.parse(message);
-    buildings.forEach(b => {
+const buildingListener = socket.listener.addListener('buildings', (message) => {
+    console.log("Building update no listener");
+});
+
+buildingListener.addListener('full', (obj) => {
+    obj.forEach(b => {
         map.addBuilding(b.x, b.y, b.width, b.height);
     });
 });

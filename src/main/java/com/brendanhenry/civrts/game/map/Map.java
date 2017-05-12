@@ -1,10 +1,11 @@
 package com.brendanhenry.civrts.game.map;
 
-import com.brendanhenry.civrts.G;
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Sender;
+import com.brendanhenry.civrts.io.UpdaterList;
 import com.brendanhenry.civrts.io.Websocket;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
@@ -12,13 +13,19 @@ import java.util.ArrayList;
  * Created by henry on 5/11/2017.
  */
 public class Map {
-  private ArrayList<Building> buildings;
+  private static JsonParser PARSE = new JsonParser();
 
-  public Map() {
-    buildings = new ArrayList<>();
-    buildings.add(new Building(3, 3, 1, 1));
-    buildings.add(new Building(1, 4, 2, 1));
-    buildings.add(new Building(2, 0, 0, 2));
+  private UpdaterList<Building> buildings;
+
+  public Map(Websocket ws) {
+    buildings = new UpdaterList<>(
+        new ArrayList<>(),
+        ws,
+        MessageType.ADD_BUILDING,
+        MessageType.REMOVE_BUILDING,
+        MessageType.UPDATE_BUILDING);
+    buildings.add(new Forest(0, 16));
+    buildings.add(new Forest(16, 0));
   }
 
   public Building getBuilding(int x, int y) {
@@ -40,19 +47,16 @@ public class Map {
   }
 
   public void sendFullUpdate(Sender s) {
-    s.send(MessageType.BUILDINGS,
-        G.SON.toJson(buildings));
+    s.send(MessageType.BUILDINGS, buildings);
   }
 
   public void registerGlobalCommands(Websocket ws) {
     ws.putCommand(MessageType.PLACE_BUILDING,
         (w, s, m) -> {
-          JsonObject loc = G.PARSE.parse(m).getAsJsonObject();
+          JsonObject loc = PARSE.parse(m).getAsJsonObject();
           int x = loc.get("x").getAsInt();
           int y = loc.get("y").getAsInt();
-          buildings.add(new Building(x, y, 2, 2));
-          w.send(s, MessageType.BUILDINGS,
-               G.SON.toJson(buildings));
+          buildings.add(new Forest(x, y));
         });
   }
 }

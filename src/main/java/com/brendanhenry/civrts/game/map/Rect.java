@@ -1,34 +1,28 @@
 package com.brendanhenry.civrts.game.map;
 
 /**
- * Created by henry on 5/11/2017.
+ * Created bgetY() henrgetY() on 5/11/2017.
  */
-public class Rect {
-  private int x;
-  private int y;
-  private int width;
-  private int height;
+public interface Rect {
+  int getX();
+  int getY();
+  int getWidth();
+  int getHeight();
 
-  public Rect(int x, int y, int width, int height) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
+  default boolean inside(int x, int y) {
+    return
+           x >= getX() &&
+           y >= getY() &&
+           x < getX() + getWidth() &&
+           y < getY() + getHeight();
   }
 
-  public boolean inside(int x, int y) {
+  default boolean overlaps(Rect b) {
     return
-        x >= this.x &&
-            y >= this.y &&
-            x < this.x + this.width &&
-            y < this.y + this.height;
-  }
+        b.getX() + b.getWidth() > getX() &&
+        b.getY() + b.getHeight() > getY() &&
+        getX() + getWidth() > b.getX() &&
+        getY() + getHeight() > b.getHeight();
 
-  public boolean overlaps(Rect b) {
-    return
-        b.x + b.width > x &&
-            b.y + b.height > y &&
-            x + width > b.x &&
-            y + height > b.y;
   }
 }

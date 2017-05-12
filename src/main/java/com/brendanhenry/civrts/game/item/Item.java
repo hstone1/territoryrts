@@ -3,21 +3,26 @@ package com.brendanhenry.civrts.game.item;
 /**
  * Created by henry on 5/11/2017.
  */
-public class Item {
-  public String name;
-  public int id;
-  public Item(int id, String name) {
+public abstract class Item {
+  public static ItemModel[] cardTypes =
+      {
+          new ItemModel("Wood")
+      };
+
+  private int id;
+  protected Item(int id) {
     this.id = id;
-    this.name = name;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    return o instanceof Item && ((Item) o).id == id;
+  public boolean ofType(ItemModel m) {
+    return cardTypes[id] == m;
   }
 
-  @Override
-  public int hashCode(){
-    return Integer.hashCode(id);
+  public ItemModel getModel() {
+    return cardTypes[id];
+  }
+
+  public int getId() {
+    return id;
   }
 }
