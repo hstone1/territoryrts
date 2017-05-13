@@ -26,12 +26,19 @@ bgGraphics.lineTo(0, 0);
 bgGraphics.endFill();
 
 app.stage.addChild(map.container);
+
 app.stage.on('pointerdown', (event) => {
     const pos = event.data.getLocalPosition(app.stage);
-    socket.send('placebuilding', JSON.stringify({
-        x: Math.floor(pos.x),
-        y: Math.floor(pos.y)
-    }));
+
+    if (map.canPlaceBuilding(new Building(Math.floor(pos.x), Math.floor(pos.y), 16, 16, "a"))) {
+        console.log("Can place building");
+        socket.send('placebuilding', JSON.stringify({
+            x: Math.floor(pos.x),
+            y: Math.floor(pos.y)
+        }));
+    } else {
+        console.log("Can't place building");
+    }
 });
 
 // Dragging logic
@@ -81,6 +88,6 @@ const buildingListener = socket.listener.addListener('buildings', (message) => {
 
 buildingListener.addListener('full', (obj) => {
     obj.forEach(b => {
-        map.addBuilding(b.x, b.y, b.width, b.height);
+        map.addBuilding(b.x, b.y, b.width, b.height, "sample id");
     });
 });
