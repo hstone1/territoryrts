@@ -1,4 +1,6 @@
-class Hud {
+import Button from './button';
+
+export default class Hud {
     constructor(height) {
         this.container = new PIXI.Container();
         this.container.x = 0;

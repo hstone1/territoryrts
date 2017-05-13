@@ -1,8 +1,13 @@
-class Game {
+import Map from './map';
+import Socket from './socket';
+import Hud from './hud';
+import Constants from './constants';
+import Building from './building';
+
+export default class Game {
     constructor() {
         this.socket = new Socket();
-
-        this.app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT);
+        this.app = new PIXI.Application(Constants.CANVAS_WIDTH, Constants.CANVAS_HEIGHT);
         document.body.appendChild(this.app.view);
 
         this._setupBackground();
@@ -29,9 +34,9 @@ class Game {
 
         bgGraphics.beginFill(0x338888);
         bgGraphics.moveTo(0, 0);
-        bgGraphics.lineTo(0, CANVAS_HEIGHT);
-        bgGraphics.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT);
-        bgGraphics.lineTo(CANVAS_WIDTH, 0);
+        bgGraphics.lineTo(0, Constants.CANVAS_HEIGHT);
+        bgGraphics.lineTo(Constants.CANVAS_WIDTH, Constants.CANVAS_HEIGHT);
+        bgGraphics.lineTo(Constants.CANVAS_WIDTH, 0);
         bgGraphics.lineTo(0, 0);
         bgGraphics.endFill();
     }
@@ -111,4 +116,4 @@ class Game {
             });
         });
     }
-}
+};

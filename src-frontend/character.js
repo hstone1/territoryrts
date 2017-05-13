@@ -1,4 +1,6 @@
-class Character extends Entity {
+import Entity from './entity';
+
+export default class Character extends Entity {
     constructor(xCoord, yCoord, id) {
         super(id);
         this.container = new PIXI.Container();
@@ -14,4 +16,4 @@ class Character extends Entity {
         this.container.x = xCoord;
         this.container.y = yCoord;
     }
-}
+};

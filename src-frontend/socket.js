@@ -1,4 +1,6 @@
-class Socket {
+import Listener from './listener';
+
+export default class Socket {
     constructor() {
         this.sock = new WebSocket("ws://localhost:4567/socket");
         this.listener = new Listener((obj) => {
@@ -19,25 +21,5 @@ class Socket {
             + ". Endpoint: " + this.endpoint);
         this.sock.send(type + ":" + message);
     }
-}
-
-class Listener{
-    constructor(fun){
-        this.fun = fun;
-        this.listeners = {};
-    }
-
-    addListener(name, fun){
-        this.listeners[name] = new Listener(fun);
-        return this.listeners[name];
-    }
-
-    doCall(m) {
-        if ("type" in m && m.type in this.listeners) {
-            this.listeners[m.type].doCall(m.message);
-        } else {
-            this.fun(m);
-        }
-    }
-}
+};
 

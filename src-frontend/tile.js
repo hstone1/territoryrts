@@ -1,4 +1,4 @@
-class Tile {
+export default class Tile {
     constructor(xCoord, yCoord) {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -25,4 +25,4 @@ class Tile {
     equals(other) {
         return this.xCoord === other.xCoord && this.yCoord === other.yCoord;
     }
-}
+};

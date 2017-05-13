@@ -1,5 +1,8 @@
-class Map {
+import Building from './building';
+import Tile from './tile';
+import Character from './character';
 
+export default class Map {
     constructor() {
         this.container = new PIXI.Container();
         this.buildings = {};
