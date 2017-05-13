@@ -8,6 +8,7 @@ class Socket {
 
         this.sock.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log("RECIEVED MESSAGE OF TYPE: " + data.type);
             console.log(data);
             this.listener.doCall(data);
         }
