@@ -1,5 +1,4 @@
 class Game {
-
     constructor() {
         const CANVAS_HEIGHT = document.documentElement.clientHeight;
         const CANVAS_WIDTH = document.documentElement.clientWidth;
