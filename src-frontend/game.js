@@ -106,7 +106,7 @@ export default class Game {
             this.map.addBuilding(obj.x, obj.y, obj.width, obj.height, obj.id);
         });
 
-        const characterListener = this.socket.listener.addListener('buildings', (message) => {
+        const characterListener = this.socket.listener.addListener('characters', (message) => {
             console.log("Character update no listener");
         });
 

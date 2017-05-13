@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,7 +72,7 @@
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__entity__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(11);
 
 
 
@@ -97,7 +97,6 @@ class Building extends __WEBPACK_IMPORTED_MODULE_0__entity__["a" /* default */] 
         this.container.addChild(this.graphics);
         this.container.x = xCoord;
         this.container.y = yCoord;
-
     }
 
     // Generate list of all tiles for overlap checking.
@@ -134,47 +133,10 @@ class Entity {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class Tile {
-    constructor(xCoord, yCoord) {
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
-
-        this.graphics = new PIXI.Graphics();
-        this.graphics.beginFill(0xFF5533);
-        this.graphics.moveTo(0, 0);
-        this.graphics.lineTo(0, 1);
-        this.graphics.lineTo(1, 1);
-        this.graphics.lineTo(1, 0);
-        this.graphics.lineTo(0, 0);
-        this.graphics.endFill();
-
-        this.container = new PIXI.Container();
-        this.container.xCoord = xCoord;
-        this.container.yCoord = yCoord;
-        this.container.addChild(this.graphics);
-    }
-
-    toString() {
-        return this.xCoord + "," + this.yCoord;
-    }
-
-    equals(other) {
-        return this.xCoord === other.xCoord && this.yCoord === other.yCoord;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Tile;
-;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socket__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__hud__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socket__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__hud__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__building__ = __webpack_require__(0);
 
 
@@ -284,7 +246,7 @@ class Game {
             this.map.addBuilding(obj.x, obj.y, obj.width, obj.height, obj.id);
         });
 
-        const characterListener = this.socket.listener.addListener('buildings', (message) => {
+        const characterListener = this.socket.listener.addListener('characters', (message) => {
             console.log("Character update no listener");
         });
 
@@ -300,19 +262,19 @@ class Game {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(2);
 
 
 const game = new __WEBPACK_IMPORTED_MODULE_0__game__["a" /* default */]();
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -327,7 +289,7 @@ class Button {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -341,12 +303,12 @@ class Character extends __WEBPACK_IMPORTED_MODULE_0__entity__["a" /* default */]
         this.xCoord = xCoord;
         this.yCoord = yCoord;
 
-        this.graphics = new PIXI.Graphics();
-        this.graphics.beginFill(0xFF5533);
-        this.graphics.drawCircle(0, 0, 10);
-        this.graphics.endFill();
+        // this.graphics = new PIXI.Graphics();
+        // this.graphics.beginFill(0xFF5533);
+        // this.graphics.drawCircle(0, 0, 10);
+        // this.graphics.endFill();
 
-        this.container.addChild(this.graphics);
+        // this.container.addChild(this.graphics);
         this.container.x = xCoord;
         this.container.y = yCoord;
     }
@@ -356,7 +318,7 @@ class Character extends __WEBPACK_IMPORTED_MODULE_0__entity__["a" /* default */]
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -369,11 +331,11 @@ class Character extends __WEBPACK_IMPORTED_MODULE_0__entity__["a" /* default */]
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__button__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__button__ = __webpack_require__(4);
 
 
 class Hud {
@@ -425,7 +387,7 @@ class Hud {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -454,14 +416,12 @@ class Listener {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__building__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__character__ = __webpack_require__(6);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__character__ = __webpack_require__(5);
 
 
 
@@ -473,11 +433,6 @@ class Map {
 
         // Map from tile coordinates to building on the tile.
         this._usedTiles = {};
-
-        let tile = new __WEBPACK_IMPORTED_MODULE_1__tile__["a" /* default */](0, 0);
-        let tile2 = new __WEBPACK_IMPORTED_MODULE_1__tile__["a" /* default */](1, 1);
-        this.container.addChild(tile.container);
-        this.container.addChild(tile2.container);
     }
 
     addBuilding(xCoord, yCoord, width, height, id) {
@@ -492,7 +447,7 @@ class Map {
     }
 
     addCharacter(xCoord, yCoord, id) {
-        const character = new __WEBPACK_IMPORTED_MODULE_2__character__["a" /* default */](xCoord, yCoord, id);
+        const character = new __WEBPACK_IMPORTED_MODULE_1__character__["a" /* default */](xCoord, yCoord, id);
 
         this.characters[id] = character;
         this.container.addChild(character.container);
@@ -514,11 +469,11 @@ class Map {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listener__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listener__ = __webpack_require__(8);
 
 
 class Socket {
@@ -546,6 +501,43 @@ class Socket {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Socket;
 ;
 
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Tile {
+    constructor(xCoord, yCoord) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+
+        this.graphics = new PIXI.Graphics();
+        this.graphics.beginFill(0xFF5533);
+        this.graphics.moveTo(0, 0);
+        this.graphics.lineTo(0, 1);
+        this.graphics.lineTo(1, 1);
+        this.graphics.lineTo(1, 0);
+        this.graphics.lineTo(0, 0);
+        this.graphics.endFill();
+
+        this.container = new PIXI.Container();
+        this.container.xCoord = xCoord;
+        this.container.yCoord = yCoord;
+        this.container.addChild(this.graphics);
+    }
+
+    toString() {
+        return this.xCoord + "," + this.yCoord;
+    }
+
+    equals(other) {
+        return this.xCoord === other.xCoord && this.yCoord === other.yCoord;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Tile;
+;
 
 
 /***/ })

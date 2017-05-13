@@ -22,7 +22,6 @@ export default class Building extends Entity {
         this.container.addChild(this.graphics);
         this.container.x = xCoord;
         this.container.y = yCoord;
-
     }
 
     // Generate list of all tiles for overlap checking.
