@@ -3,26 +3,26 @@ package com.brendanhenry.civrts.io;
 import com.brendanhenry.civrts.game.entity.Entity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by henry on 5/12/2017.
- */
+
+
 public class UpdaterSet<T extends Entity> implements Set<T>, Jsonable {
   private MessageType added;
   private MessageType removed;
   private Set<T> backer;
+  private Map<Integer, T> byId;
   private Websocket ws;
 
   public UpdaterSet (Set<T> backer, Websocket ws, MessageType added,
                       MessageType removed) {
+    byId = new HashMap<>();
     this.added = added;
     this.removed = removed;
     this.backer = backer;
@@ -63,6 +63,7 @@ public class UpdaterSet<T extends Entity> implements Set<T>, Jsonable {
   public boolean add(T t) {
     boolean add = backer.add(t);
     if (add) {
+      byId.put(t.getId(), t);
       ws.sendAll(added, t.toJson());
     }
     return add;
@@ -73,6 +74,7 @@ public class UpdaterSet<T extends Entity> implements Set<T>, Jsonable {
     if (o instanceof Entity) {
       boolean rem = backer.remove(o);
       if (rem) {
+        byId.remove(((Entity) o).getId());
         ws.sendAll(removed, new JsonPrimitive(((Entity) o).getId()));
       }
       return rem;
@@ -122,5 +124,9 @@ public class UpdaterSet<T extends Entity> implements Set<T>, Jsonable {
       arr.add(t.toJson());
     }
     return arr;
+  }
+
+  public T getById(int id) {
+    return byId.get(id);
   }
 }

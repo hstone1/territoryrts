@@ -54,6 +54,7 @@ public class Building extends Entity implements Rect{
     b.addProperty("width", getWidth());
     b.addProperty("height", getHeight());
     b.addProperty("name", getName());
+    b.addProperty("modelid", id);
     return b;
   }
 }

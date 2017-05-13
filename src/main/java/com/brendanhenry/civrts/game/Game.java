@@ -10,8 +10,10 @@ import com.brendanhenry.civrts.io.Websocket;
  */
 public class Game {
   private Map map;
+  private Websocket ws;
 
-  public Game(Websocket ws){
+  public Game(Websocket ws) {
+    this.ws = ws;
     this.map = new Map(ws);
   }
 

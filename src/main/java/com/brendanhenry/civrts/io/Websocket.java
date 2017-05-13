@@ -1,5 +1,6 @@
 package com.brendanhenry.civrts.io;
 
+import com.brendanhenry.civrts.scheduler.Schedular;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.eclipse.jetty.websocket.api.Session;
@@ -29,10 +30,21 @@ public class Websocket {
   private Map<String, MessageListener> commands;
   private List<Session> sessions;
   private SocketServer serve;
+  private Schedular schedular;
 
   public Websocket() {
     sessions = new ArrayList<>();
     commands = new HashMap<>();
+    schedular = new Schedular(25);
+    schedular.start();
+  }
+
+  public void regularSendAll(MessageType mt, PeriodicSend send, int dt) {
+    schedular.addOperation(
+        () -> {
+          sendAll(mt, send.toSend());
+        }, dt
+    );
   }
 
   public void setServer(SocketServer serve){

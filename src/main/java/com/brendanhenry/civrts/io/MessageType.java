@@ -12,10 +12,16 @@ public enum MessageType {
   BUILDINGS ("full", BUILD),
   ADD_BUILDING ("add", BUILD),
   REMOVE_BUILDING ("remove", BUILD),
+  CHAR ("characters"),
+  CHARACTERS ("full", CHAR),
+  ADD_CHARACTER ("add", CHAR),
+  REMOVE_CHARACTER ("remove", CHAR),
+  UPDATE_CHARACTER("update", CHAR),
 
 
 
-  PLACE_BUILDING ("placebuilding");
+  PLACE_BUILDING ("placebuilding"),
+  MOVE_CHARACTER("movecharacter");
 
 
   private final String name;
