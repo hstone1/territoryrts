@@ -8,6 +8,7 @@ html, body {
     margin: 0;
     overflow: hidden;
     position: relative;
+    font-family: Helvetica, Arial, Sans-serif;
 }
 
 #hud {
@@ -19,17 +20,27 @@ html, body {
     pointer-events: none;
 
     #bottom-bar {
+        pointer-events: all;
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
         height: 220px;
-        background: green;
 
         .buttons {
             width: 220px;
             height: 100%;
             background: blue;
+
+            .button {
+                padding: 12px;
+                background: white;
+                margin: 2px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
     }
 }

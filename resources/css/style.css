@@ -6,7 +6,8 @@ html, body {
   padding: 0;
   margin: 0;
   overflow: hidden;
-  position: relative; }
+  position: relative;
+  font-family: Helvetica, Arial, Sans-serif; }
 
 #hud {
   position: absolute;
@@ -16,15 +17,21 @@ html, body {
   bottom: 0;
   pointer-events: none; }
   #hud #bottom-bar {
+    pointer-events: all;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 220px;
-    background: green; }
+    height: 220px; }
     #hud #bottom-bar .buttons {
       width: 220px;
       height: 100%;
       background: blue; }
+      #hud #bottom-bar .buttons .button {
+        padding: 12px;
+        background: white;
+        margin: 2px; }
+        #hud #bottom-bar .buttons .button:hover {
+          cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */

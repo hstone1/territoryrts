@@ -1,6 +1,6 @@
 class Button {
-    constructor(callback) {
-        this.title = "Build";
+    constructor(title, callback) {
+        this.title = title;
         this.callback = callback;
     }
 }
