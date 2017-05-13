@@ -14,6 +14,9 @@ class Game {
 
         this.addListeners();
         this.addEventListeners();
+
+        this.hud = new Hud(180);
+        this.app.stage.addChild(this.hud.container);
     }
 
     _setupBackground() {
@@ -63,13 +66,8 @@ class Game {
         // ZOOMING
         $canvas[0].addEventListener('mousewheel', event => {
             event.preventDefault();
-            if (event.deltaY > 0) {
-                this.map.container.scale.x *= 1.05;
-                this.map.container.scale.y *= 1.05;
-            } else if (event.deltaY < 0) {
-                this.map.container.scale.x *= 0.95;
-                this.map.container.scale.y *= 0.95;
-            }
+            this.map.container.scale.x *= event.deltaY > 0 ? 1.05 : 0.95;
+            this.map.container.scale.y = this.map.container.scale.x;
             return false;
         }, false);
 
