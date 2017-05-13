@@ -93,5 +93,5 @@ buildingListener.addListener('full', (obj) => {
 });
 
 buildingListener.addListener('add', (obj) => {
-    map.addBuilding()
-})
+    map.addBuilding(obj.x, obj.y, obj.width, obj.height, obj.id);
+});

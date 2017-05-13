@@ -15,9 +15,6 @@ class Map {
 
     addBuilding(xCoord, yCoord, width, height, id) {
         const building = new Building(xCoord, yCoord, width, height, id);
-        console.log("\n\nCan place building??");
-        console.log(this.canPlaceBuilding(building));
-        console.log(building.tiles());
 
         this.buildings[id] = building;
         this.container.addChild(building.container);
@@ -28,10 +25,6 @@ class Map {
     }
 
     canPlaceBuilding(building) {
-        console.log("checking if can place bulding");
-        console.log(building.tiles());
-        console.log(this._usedTiles);
-
         let canPlace = true;
         building.tiles().forEach(tile => {
             if (this._usedTiles[tile.toString()]) {
