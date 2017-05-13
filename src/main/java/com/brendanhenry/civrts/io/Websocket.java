@@ -90,6 +90,7 @@ public class Websocket {
   @OnWebSocketConnect
   public void onConnect(Session user) {
     serve.newSession(this, user);
+    sessions.add(user);
   }
 
   /**

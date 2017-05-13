@@ -12,10 +12,6 @@ public enum MessageType {
   BUILDINGS ("full", BUILD),
   ADD_BUILDING ("add", BUILD),
   REMOVE_BUILDING ("remove", BUILD),
-  UPDATE_BUILDING ("update", BUILD),
-
-
-
 
 
 

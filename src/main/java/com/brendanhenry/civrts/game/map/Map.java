@@ -2,12 +2,12 @@ package com.brendanhenry.civrts.game.map;
 
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Sender;
-import com.brendanhenry.civrts.io.UpdaterList;
+import com.brendanhenry.civrts.io.UpdaterSet;
 import com.brendanhenry.civrts.io.Websocket;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by henry on 5/11/2017.
@@ -15,15 +15,14 @@ import java.util.ArrayList;
 public class Map {
   private static JsonParser PARSE = new JsonParser();
 
-  private UpdaterList<Building> buildings;
+  private UpdaterSet<Building> buildings;
 
   public Map(Websocket ws) {
-    buildings = new UpdaterList<>(
-        new ArrayList<>(),
+    buildings = new UpdaterSet<>(
+        new HashSet<>(),
         ws,
         MessageType.ADD_BUILDING,
-        MessageType.REMOVE_BUILDING,
-        MessageType.UPDATE_BUILDING);
+        MessageType.REMOVE_BUILDING);
     buildings.add(new Forest(0, 16));
     buildings.add(new Forest(16, 0));
   }
