@@ -100,5 +100,15 @@ class Game {
         buildingListener.addListener('add', (obj) => {
             this.map.addBuilding(obj.x, obj.y, obj.width, obj.height, obj.id);
         });
+
+        const characterListener = this.socket.listener.addListener('buildings', (message) => {
+            console.log("Character update no listener");
+        });
+
+        characterListener.addListener('full', (obj) => {
+            obj.forEach(c => {
+                this.map.addCharacter(c.x, c.y, c.id);
+            });
+        });
     }
 }

@@ -3,6 +3,7 @@ class Map {
     constructor() {
         this.container = new PIXI.Container();
         this.buildings = {};
+        this.characters = {};
 
         // Map from tile coordinates to building on the tile.
         this._usedTiles = {};
@@ -22,6 +23,13 @@ class Map {
         building.tiles().forEach(tile => {
             this._usedTiles[tile.toString()] = building.id;
         });
+    }
+
+    addCharacter(xCoord, yCoord, id) {
+        const character = new Character(xCoord, yCoord, id);
+
+        this.characters[id] = character;
+        this.container.addChild(character.container);
     }
 
     canPlaceBuilding(building) {
