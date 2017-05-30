@@ -11,7 +11,11 @@ export default class Player {
     }
 
     characterClicked(character) {
+        if (this.selected) {
+            this.selected.setSelected(false);
+        }
         this.selected = character;
+        this.selected.setSelected(true);
         console.log(this.selected);
     }
 }
