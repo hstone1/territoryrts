@@ -80,6 +80,7 @@ public class Map {
           double x = move.get("x").getAsDouble();
           double y = move.get("y").getAsDouble();
           int charId = move.get("id").getAsInt();
+          System.out.println(charId);
           characters.getById(charId).setDestination(
               new AbstractLocation(x, y)
           );

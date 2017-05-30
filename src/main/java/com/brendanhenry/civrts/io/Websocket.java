@@ -137,6 +137,7 @@ public class Websocket {
         } catch (Exception e) {
           System.out.println("ERROR: handling the message \"" + message + "\"");
           System.out.println("ERROR MESSAGE: " + e.getMessage());
+            e.printStackTrace();
         }
         return;
       }

@@ -1,73 +1,92 @@
 package com.brendanhenry.civrts.game.entity;
 
+import com.brendanhenry.civrts.game.entity.action.Action;
+import com.brendanhenry.civrts.game.entity.action.WalkAction;
 import com.brendanhenry.civrts.game.entity.pathfinding.Location;
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Websocket;
 import com.google.gson.JsonObject;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by henry on 5/12/2017.
  */
 public class Character extends Entity implements Location {
   public static CharacterModel[] types = {
-    new CharacterModel("Worker", 1)
+    new CharacterModel("Worker", 5)
   };
 
-  private Location destination;
-  private long locationTime;
+
 
   private double x;
   private double y;
   protected int modelId;
+
+  private Queue<Action> actions;
 
   public Character(int id, double x, double y, Websocket ws){
     this.x = x;
     this.y = y;
     this.modelId = id;
 
+    actions = new LinkedList<>();
+
     ws.regularSendAll(MessageType.UPDATE_CHARACTER,
         this::toJson, 100);
   }
 
-  @Override
-  public JsonObject toJson(){
-    JsonObject jo = super.toJson();
-    jo.addProperty("x", x);
-    jo.addProperty("y", y);
-    if (destination != null) {
-      jo.add("destination", destination.toJson());
-    }
-    jo.addProperty("modelid", modelId);
-    return jo;
+  private void update() {
+      long time = System.currentTimeMillis();
+          while (!actions.isEmpty()) {
+          if (actions.peek().update(this, time)) {
+              actions.peek().end(this);
+              actions.remove();
+              startAction(time);
+          } else {
+              return;
+          }
+      }
   }
 
-  private void updateLocation(long time) {
-    if (destination != null) {
-      int diff = (int) (time - locationTime);
-      double dx = destination.getX() - x;
-      double dy = destination.getY() - y;
-      double dist = Math.sqrt(dx * dx + dy * dy);
-      double travelAbility = getSpeed() * diff / 1000.0;
-      if (dist < travelAbility) {
-        this.x = destination.getX();
-        this.y = destination.getY();
-        this.destination = null;
-      } else {
-        this.x += dx * travelAbility / dist;
-        this.y += dy * travelAbility / dist;
+  private void startAction(long time){
+      if (!actions.isEmpty()) {
+          if (actions.peek().start(this, time)) {
+              actions.peek().end(this);
+              actions.remove();
+              startAction(time);
+          }
       }
-    }
-    locationTime = time;
   }
+
+    @Override
+    public JsonObject toJson() {
+        update();
+        JsonObject jo = super.toJson();
+        jo.addProperty("x", x);
+        jo.addProperty("y", y);
+        jo.addProperty("modelid", modelId);
+        if (!actions.isEmpty()) {
+            jo.add("currentaction", actions.peek().toJson());
+        }
+        return jo;
+    }
 
   public double getX () {
-    updateLocation(System.currentTimeMillis());
     return x;
   }
 
   public double getY () {
-    updateLocation(System.currentTimeMillis());
     return y;
+  }
+  
+  public void setX (double x) {
+      this.x = x;
+  }
+  
+  public void setY (double y) {
+      this.y = y;
   }
 
   protected CharacterModel getModel() {
@@ -75,8 +94,16 @@ public class Character extends Entity implements Location {
   }
 
   public void setDestination(Location destination) {
-    updateLocation(System.currentTimeMillis());
-    this.destination = destination;
+    addActionPriority(new WalkAction(destination));
+  }
+  
+  private void addActionPriority(Action a){
+      long time = System.currentTimeMillis();
+      if (!actions.isEmpty()) {
+          actions.peek().kill(this, time);
+      }
+      actions.clear();
+      actions.add(a); a.start(this, time);
   }
 
   public String getName(){
