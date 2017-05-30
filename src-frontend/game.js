@@ -129,7 +129,7 @@ export default class Game {
         });
 
         characterListener.addListener('update', (obj) => {
-            console.log(obj);
+            this.map.moveCharacter(obj.id, obj.x, obj.y);
         });
     }
 };

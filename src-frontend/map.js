@@ -40,4 +40,15 @@ export default class Map {
 
         return canPlace;
     }
+
+    moveCharacter(id, x, y) {
+        console.log("moving characeter " + id + " to " + x + ", " + y);
+        const character = this.characters[id];
+        character.container.x = x;
+        character.container.y = y;
+    }
 }
+
+
+
+
