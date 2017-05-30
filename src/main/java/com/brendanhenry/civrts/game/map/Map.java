@@ -1,6 +1,7 @@
 package com.brendanhenry.civrts.game.map;
 
 import com.brendanhenry.civrts.game.entity.Character;
+import com.brendanhenry.civrts.game.entity.Worker;
 import com.brendanhenry.civrts.game.entity.pathfinding.AbstractLocation;
 import com.brendanhenry.civrts.io.MessageType;
 import com.brendanhenry.civrts.io.Sender;
@@ -36,6 +37,9 @@ public class Map {
         MessageType.REMOVE_CHARACTER);
     buildings.add(new Forest(0, 16));
     buildings.add(new Forest(16, 0));
+    characters.add(new Worker(10, 10, ws));
+    characters.add(new Worker(30, 30, ws));
+    characters.add(new Worker(50, 50, ws));
   }
 
   public Building getBuilding(int x, int y) {
