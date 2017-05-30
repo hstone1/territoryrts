@@ -1,4 +1,6 @@
 civrts.iml
+resources/js/
+
 .idea/*
 .idea/
 node_modules/

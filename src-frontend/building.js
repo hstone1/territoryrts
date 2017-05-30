@@ -1,4 +1,7 @@
-class Building extends Entity {
+import Entity from './entity';
+import Tile from './tile';
+
+export default class Building extends Entity {
     constructor(xCoord, yCoord, width, height, id) {
         super(id);
         this.container = new PIXI.Container();
@@ -19,7 +22,6 @@ class Building extends Entity {
         this.container.addChild(this.graphics);
         this.container.x = xCoord;
         this.container.y = yCoord;
-
     }
 
     // Generate list of all tiles for overlap checking.
@@ -32,4 +34,4 @@ class Building extends Entity {
         }
         return tiles;
     }
-}
+};

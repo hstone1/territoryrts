@@ -1,0 +1,25 @@
+{
+  "name": "territoryrts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hstone1/territoryrts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hstone1/territoryrts/issues"
+  },
+  "homepage": "https://github.com/hstone1/territoryrts#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "path": "^0.12.7",
+    "webpack-dev-server": "^2.4.5"
+  }
+}
