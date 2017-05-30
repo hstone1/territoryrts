@@ -3,6 +3,7 @@ import Socket from './socket';
 import Hud from './hud';
 import Constants from './constants';
 import Building from './building';
+import Player from './player';
 
 export default class Game {
     constructor() {
@@ -11,14 +12,15 @@ export default class Game {
         document.body.appendChild(this.app.view);
 
         this._setupBackground();
+        this.player = new Player();
 
-        this.map = new Map();
+        this.map = new Map(this.player);
         this.app.stage.addChild(this.map.container);
         this.map.container.scale.x = this.map.container.scale.y = 10;
         this.app.stage.interactive = true;
 
-        this.addListeners();
         this.addEventListeners();
+        this.addListeners();
 
         this.hud = new Hud(180);
         this.app.stage.addChild(this.hud.container);
@@ -41,7 +43,7 @@ export default class Game {
         bgGraphics.endFill();
     }
 
-    addListeners() {
+    addEventListeners() {
         let isDragging = false;
         let prev = [];
 
@@ -76,29 +78,39 @@ export default class Game {
             return false;
         }, false);
 
-        this.app.stage.on('pointerdown', (event) => {
+        this.app.stage.on('pointerdown', event => {
             const pos = event.data.getLocalPosition(this.map.container);
 
-            if (this.map.canPlaceBuilding(new Building(Math.floor(pos.x), Math.floor(pos.y), 16, 16, "a"))) {
-                console.log("Can place building");
-                this.socket.send('placebuilding', JSON.stringify({
-                    x: Math.floor(pos.x),
-                    y: Math.floor(pos.y)
-                }));
-            } else {
-                console.log("Can't place building");
-            }
+            this.socket.send('movecharacter', JSON.stringify({
+                'x': Math.floor(pos.x),
+                'y': Math.floor(pos.y),
+                'id': this.player.selected.id
+            }));
         });
+
+
+        // this.app.stage.on('pointerdown', (event) => {
+        //     const pos = event.data.getLocalPosition(this.map.container);
+        //
+        //     if (this.map.canPlaceBuilding(new Building(Math.floor(pos.x), Math.floor(pos.y), 16, 16, "a"))) {
+        //         this.socket.send('placebuilding', JSON.stringify({
+        //             x: Math.floor(pos.x),
+        //             y: Math.floor(pos.y)
+        //         }));
+        //     } else {
+        //         console.log("Can't place building");
+        //     }
+        // });
     }
 
-    addEventListeners() {
+    addListeners() {
         const buildingListener = this.socket.listener.addListener('buildings', (message) => {
             console.log("Building update no listener");
         });
 
         buildingListener.addListener('full', (obj) => {
             obj.forEach(b => {
-                this.map.addBuilding(b.x, b.y, b.width, b.height, "sample id");
+                this.map.addBuilding(b.x, b.y, b.width, b.height, b.id.toString());
             });
         });
 
@@ -107,13 +119,17 @@ export default class Game {
         });
 
         const characterListener = this.socket.listener.addListener('characters', (message) => {
-            console.log("Character update no listener");
+            // console.log("Character update no listener");
         });
 
         characterListener.addListener('full', (obj) => {
             obj.forEach(c => {
-                this.map.addCharacter(c.x, c.y, c.id);
+                this.map.addCharacter(c.x, c.y, c.id.toString());
             });
+        });
+
+        characterListener.addListener('update', (obj) => {
+            console.log(obj);
         });
     }
 };

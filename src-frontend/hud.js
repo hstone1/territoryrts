@@ -39,7 +39,9 @@ export default class Hud {
 
         buttons.forEach(button => {
             console.log(button);
-            $buttons.append('<div class="button">' + button.title + '</div>');
+            let $button = $('<div class="button">' + button.title + '</div>');
+            $button.click(button.callback);
+            $buttons.append($button);
         });
     }
 }

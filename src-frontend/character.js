@@ -1,8 +1,10 @@
 import Entity from './entity';
 
 export default class Character extends Entity {
-    constructor(xCoord, yCoord, id) {
+    constructor(xCoord, yCoord, id, player) {
         super(id);
+        this.player = player;
+
         this.container = new PIXI.Container();
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -15,5 +17,10 @@ export default class Character extends Entity {
         this.container.addChild(this.graphics);
         this.container.x = xCoord;
         this.container.y = yCoord;
+
+        this.container.interactive = true;
+        this.container.on('pointerdown', (event) => {
+            this.player.characterClicked(this);
+        });
     }
 };
