@@ -5,6 +5,10 @@ export default class Building extends Entity {
     constructor(xCoord, yCoord, width, height, id, map) {
         super(id);
 
+        this.type = "building";
+        this.selected = false;
+
+
         this.map = map;
         this.container = new PIXI.Container();
         this.xCoord = xCoord;
@@ -12,16 +16,9 @@ export default class Building extends Entity {
         this.width = width;
         this.height = height;
 
-        this.graphics = new PIXI.Graphics();
-        this.graphics.beginFill(0xFF5533);
-        this.graphics.moveTo(0, 0);
-        this.graphics.lineTo(width, 0);
-        this.graphics.lineTo(width, height);
-        this.graphics.lineTo(0, height);
-        this.graphics.lineTo(0, 0);
-        this.graphics.endFill();
-
+        this.graphics = this._createGraphics(0xFF5533);
         this.container.addChild(this.graphics);
+
         this.container.x = xCoord;
         this.container.y = yCoord;
 
@@ -32,12 +29,44 @@ export default class Building extends Entity {
         });
     }
 
-    static get buttons() {
+    get buttons() {
         return [
-            new Button("Move Character", () => {
+            new Button("Button", () => {
                 console.log(this);
             })
         ];
+    }
+
+    get selected() {
+        return this._selected;
+    }
+
+    set selected(selected) {
+        this._selected = selected;
+        if (this._selected) {
+            this._changeColor(0x55FF33);
+        } else {
+            this._changeColor(0xFF5533)
+        }
+    }
+
+    _changeColor(color) {
+        this.container.removeChild(this.graphics);
+        this.graphics = this._createGraphics(color);
+        this.container.addChild(this.graphics);
+    }
+
+    _createGraphics(color) {
+        const graphics = new PIXI.Graphics();
+        graphics.beginFill(color);
+        graphics.moveTo(0, 0);
+        graphics.lineTo(width, 0);
+        graphics.lineTo(width, height);
+        graphics.lineTo(0, height);
+        graphics.lineTo(0, 0);
+        graphics.endFill();
+
+        return graphics;
     }
 
     // Generate list of all tiles for overlap checking.

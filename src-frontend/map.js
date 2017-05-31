@@ -38,12 +38,13 @@ export default class Map {
     }
 
     stageClicked(x, y) {
-        console.log("Stage clicekd");
-        this.game.socket.send('movecharacter', JSON.stringify({
-            'x': Math.floor(x),
-            'y': Math.floor(y),
-            'id': this.selected.id
-        }));
+        if (this.selected.type === "character") {
+            this.game.socket.send('movecharacter', JSON.stringify({
+                'x': Math.floor(x),
+                'y': Math.floor(y),
+                'id': this.selected.id
+            }));
+        }
     }
 
     addBuilding(xCoord, yCoord, width, height, id) {

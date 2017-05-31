@@ -4,6 +4,8 @@ import Button from './button';
 export default class Character extends Entity {
     constructor(xCoord, yCoord, id, map) {
         super(id);
+
+        this.type = "character";
         this.map = map;
         this._selected = false;
 
