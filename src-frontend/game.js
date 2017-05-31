@@ -14,7 +14,7 @@ export default class Game {
         this._setupBackground();
         this.player = new Player();
 
-        this.map = new Map(this.player);
+        this.map = new Map(this.player, this);
         this.app.stage.addChild(this.map.container);
         this.map.container.scale.x = this.map.container.scale.y = 10;
         this.app.stage.interactive = true;
@@ -80,14 +80,14 @@ export default class Game {
 
         this.app.stage.on('pointerdown', event => {
             const pos = event.data.getLocalPosition(this.map.container);
+            this.map.stageClicked(pos.x, pos.y);
 
-            this.socket.send('movecharacter', JSON.stringify({
-                'x': Math.floor(pos.x),
-                'y': Math.floor(pos.y),
-                'id': this.player.selected.id
-            }));
+            // this.socket.send('movecharacter', JSON.stringify({
+            //     'x': Math.floor(pos.x),
+            //     'y': Math.floor(pos.y),
+            //     'id': this.player.selected.id
+            // }));
         });
-
 
         // this.app.stage.on('pointerdown', (event) => {
         //     const pos = event.data.getLocalPosition(this.map.container);

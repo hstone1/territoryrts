@@ -2,18 +2,43 @@ import Building from './building';
 import Character from './character';
 
 export default class Map {
-    constructor(player) {
+    constructor(player, game) {
         this.container = new PIXI.Container();
         this.buildings = {};
         this.characters = {};
+        this.game = game;
 
         // Map from tile coordinates to building on the tile.
         this._usedTiles = {};
         this.player = player;
+        this.selected = null;
+    }
+
+    buildingClicked(building) {
+        console.log("Building clicked");
+        this.selected = building;
+    }
+
+    characterClicked(character) {
+        console.log("Character clicked");
+        if (this.selected) {
+            this.selected.setSelected(false);
+        }
+        this.selected = character;
+        this.selected.setSelected(true);
+    }
+
+    stageClicked(x, y) {
+        console.log("Stage clicekd");
+        this.game.socket.send('movecharacter', JSON.stringify({
+            'x': Math.floor(x),
+            'y': Math.floor(y),
+            'id': this.selected.id
+        }));
     }
 
     addBuilding(xCoord, yCoord, width, height, id) {
-        const building = new Building(xCoord, yCoord, width, height, id, this.player);
+        const building = new Building(xCoord, yCoord, width, height, id, this);
 
         this.buildings[id] = building;
         this.container.addChild(building.container);
@@ -24,7 +49,7 @@ export default class Map {
     }
 
     addCharacter(xCoord, yCoord, id) {
-        const character = new Character(xCoord, yCoord, id, this.player);
+        const character = new Character(xCoord, yCoord, id, this);
 
         this.characters[id] = character;
         this.container.addChild(character.container);
@@ -42,7 +67,6 @@ export default class Map {
     }
 
     moveCharacter(id, x, y) {
-        console.log("moving characeter " + id + " to " + x + ", " + y);
         const character = this.characters[id];
         character.container.x = x;
         character.container.y = y;

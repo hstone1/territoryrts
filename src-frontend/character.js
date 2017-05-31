@@ -1,9 +1,9 @@
 import Entity from './entity';
 
 export default class Character extends Entity {
-    constructor(xCoord, yCoord, id, player) {
+    constructor(xCoord, yCoord, id, map) {
         super(id);
-        this.player = player;
+        this.map = map;
         this._selected = false;
 
         this.container = new PIXI.Container();
@@ -18,7 +18,8 @@ export default class Character extends Entity {
 
         this.container.interactive = true;
         this.container.on('pointerdown', (event) => {
-            this.player.characterClicked(this);
+            event.stopPropagation();
+            this.map.characterClicked(this);
         });
     }
 
@@ -27,7 +28,6 @@ export default class Character extends Entity {
     }
 
     setSelected(selected) {
-        console.log("setting selected!!!1");
         this._selected = selected;
 
         if (this._selected) {

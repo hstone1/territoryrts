@@ -2,10 +2,10 @@ import Entity from './entity';
 import Tile from './tile';
 
 export default class Building extends Entity {
-    constructor(xCoord, yCoord, width, height, id, player) {
+    constructor(xCoord, yCoord, width, height, id, map) {
         super(id);
 
-        this.player = player;
+        this.map = map;
         this.container = new PIXI.Container();
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -27,7 +27,8 @@ export default class Building extends Entity {
 
         this.container.interactive = true;
         this.container.on('pointerdown', (event) => {
-            this.player.buildingClicked(this);
+            event.stopPropagation();
+            this.map.buildingClicked(this);
         });
     }
 
