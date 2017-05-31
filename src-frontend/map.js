@@ -2,11 +2,12 @@ import Building from './building';
 import Character from './character';
 
 export default class Map {
-    constructor(player, game) {
+    constructor(player, hud, game) {
         this.container = new PIXI.Container();
         this.buildings = {};
         this.characters = {};
         this.game = game;
+        this.hud = hud;
 
         // Map from tile coordinates to building on the tile.
         this._usedTiles = {};
@@ -15,17 +16,25 @@ export default class Map {
     }
 
     buildingClicked(building) {
-        console.log("Building clicked");
-        this.selected = building;
+        this._deselect();
+        this._select(building);
     }
 
     characterClicked(character) {
-        console.log("Character clicked");
+        this._deselect();
+        this._select(character);
+    }
+
+    _deselect() {
         if (this.selected) {
-            this.selected.setSelected(false);
+            this.selected.selected = false;
         }
-        this.selected = character;
-        this.selected.setSelected(true);
+    }
+
+    _select(entity) {
+        this.selected = entity;
+        this.selected.selected = true;
+        this.hud.setButtons(this.selected.buttons);
     }
 
     stageClicked(x, y) {

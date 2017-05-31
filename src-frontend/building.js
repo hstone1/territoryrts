@@ -32,6 +32,14 @@ export default class Building extends Entity {
         });
     }
 
+    static get buttons() {
+        return [
+            new Button("Move Character", () => {
+                console.log(this);
+            })
+        ];
+    }
+
     // Generate list of all tiles for overlap checking.
     tiles() {
         const tiles = [];

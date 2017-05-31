@@ -1,4 +1,5 @@
 import Entity from './entity';
+import Button from './button';
 
 export default class Character extends Entity {
     constructor(xCoord, yCoord, id, map) {
@@ -10,7 +11,7 @@ export default class Character extends Entity {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
 
-        this.graphics = this.createGraphicsWithColor(0xFF5533)
+        this.graphics = this._createGraphicsWithColor(0xFF5533)
 
         this.container.addChild(this.graphics);
         this.container.x = xCoord;
@@ -21,33 +22,39 @@ export default class Character extends Entity {
             event.stopPropagation();
             this.map.characterClicked(this);
         });
+
+        this.buttons = [
+            new Button("Character Action", () => {
+                console.log(this);
+            })
+        ]
     }
 
-    getSelected() {
+    get selected() {
         return this._selected;
     }
 
-    setSelected(selected) {
+    set selected(selected) {
         this._selected = selected;
 
         if (this._selected) {
-            this.container.removeChild(this.graphics);
-            this.graphics = this.createGraphicsWithColor(0x55FF33);
-            this.container.addChild(this.graphics);
+            this._changeColorOfGraphic(0x55FF33);
         } else {
-            this.container.removeChild(this.graphics);
-            this.graphics = this.createGraphicsWithColor(0xFF5533);
-            this.container.addChild(this.graphics);
+            this._changeColorOfGraphic(0xFF5533);
         }
     }
 
-    createGraphicsWithColor(color) {
+    _changeColorOfGraphic(color) {
+        this.container.removeChild(this.graphics);
+        this.graphics = this._createGraphicsWithColor(color);
+        this.container.addChild(this.graphics);
+    }
+
+    _createGraphicsWithColor(color) {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(color);
         graphics.drawCircle(0, 0, 10);
         graphics.endFill();
         return graphics;
     }
-
-
 };

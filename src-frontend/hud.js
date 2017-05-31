@@ -7,8 +7,15 @@ export default class Hud {
         this.container.y = 0;
         this.height = height;
 
-        // this._setupBackground();
-        this._setupButtons();
+        let buttons = [
+            new Button("Button 1", (event) => {
+                console.log("hello");
+            }),
+            new Button("Build", (event) => {
+                console.log("build!");
+            })
+        ];
+        this.setButtons(buttons);
     }
 
     // _setupBackground() {
@@ -25,17 +32,10 @@ export default class Hud {
     //     background.endFill();
     // }
 
-    _setupButtons() {
-        let buttons = [
-            new Button("Button 1", (event) => {
-                console.log("hello");
-            }),
-            new Button("Build", (event) => {
-                console.log("build!");
-            })
-        ];
+    setButtons(buttons) {
 
         const $buttons = $('.buttons');
+        $buttons.html('');
 
         buttons.forEach(button => {
             console.log(button);

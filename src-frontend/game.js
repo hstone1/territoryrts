@@ -14,7 +14,10 @@ export default class Game {
         this._setupBackground();
         this.player = new Player();
 
-        this.map = new Map(this.player, this);
+        this.hud = new Hud(180);
+        this.app.stage.addChild(this.hud.container);
+
+        this.map = new Map(this.player, this.hud, this);
         this.app.stage.addChild(this.map.container);
         this.map.container.scale.x = this.map.container.scale.y = 10;
         this.app.stage.interactive = true;
@@ -22,8 +25,6 @@ export default class Game {
         this.addEventListeners();
         this.addListeners();
 
-        this.hud = new Hud(180);
-        this.app.stage.addChild(this.hud.container);
     }
 
     _setupBackground() {
@@ -81,26 +82,7 @@ export default class Game {
         this.app.stage.on('pointerdown', event => {
             const pos = event.data.getLocalPosition(this.map.container);
             this.map.stageClicked(pos.x, pos.y);
-
-            // this.socket.send('movecharacter', JSON.stringify({
-            //     'x': Math.floor(pos.x),
-            //     'y': Math.floor(pos.y),
-            //     'id': this.player.selected.id
-            // }));
         });
-
-        // this.app.stage.on('pointerdown', (event) => {
-        //     const pos = event.data.getLocalPosition(this.map.container);
-        //
-        //     if (this.map.canPlaceBuilding(new Building(Math.floor(pos.x), Math.floor(pos.y), 16, 16, "a"))) {
-        //         this.socket.send('placebuilding', JSON.stringify({
-        //             x: Math.floor(pos.x),
-        //             y: Math.floor(pos.y)
-        //         }));
-        //     } else {
-        //         console.log("Can't place building");
-        //     }
-        // });
     }
 
     addListeners() {
