@@ -1,12 +1,13 @@
 import Entity from './entity';
 import Tile from './tile';
+import Button from './button';
 
 export default class Building extends Entity {
     constructor(xCoord, yCoord, width, height, id, map) {
         super(id);
 
         this.type = "building";
-        this.selected = false;
+        this._selected = false;
 
 
         this.map = map;
@@ -60,9 +61,9 @@ export default class Building extends Entity {
         const graphics = new PIXI.Graphics();
         graphics.beginFill(color);
         graphics.moveTo(0, 0);
-        graphics.lineTo(width, 0);
-        graphics.lineTo(width, height);
-        graphics.lineTo(0, height);
+        graphics.lineTo(this.width, 0);
+        graphics.lineTo(this.width, this.height);
+        graphics.lineTo(0, this.height);
         graphics.lineTo(0, 0);
         graphics.endFill();
 
